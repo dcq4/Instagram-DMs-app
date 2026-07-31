@@ -8,23 +8,21 @@
 <meta name="apple-mobile-web-app-title" content="DM runs">
 <title>DM runs — UH + TSU '30</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128172;</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;450;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#262626;--paper:#FAFAFA;--card:#FFF;--line:#DBDBDB;--muted:#8E8E8E;
   --blue:#0095F6;--red:#ED4956;
+  --sans:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text',system-ui,'Segoe UI',Roboto,sans-serif;
   --grad:linear-gradient(45deg,#FEDA75 0%,#FA7E1E 25%,#D62976 50%,#962FBF 75%,#4F5BD5 100%);}
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;background:var(--paper);}
-body{font-family:'IBM Plex Sans',system-ui,-apple-system,sans-serif;color:var(--ink);
+body{font-family:var(--sans);color:var(--ink);
   -webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;}
 .wrap{max-width:600px;margin:0 auto;padding:22px 18px calc(72px + env(safe-area-inset-bottom));}
 
 .top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;}
-.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;
+.eyebrow{font-family:var(--sans);font-size:11px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--muted);font-weight:500;}
-.live{display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;
+.live{display:flex;align-items:center;gap:6px;font-family:var(--sans);
   font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
 .dot{width:7px;height:7px;border-radius:99px;background:#C7C7C7;}
 .dot.on{background:#4BB543;box-shadow:0 0 0 3px rgba(75,181,67,.16);}
@@ -44,20 +42,73 @@ h1{font-size:33px;font-weight:700;letter-spacing:-.03em;line-height:1.08;margin:
 .card.complete{border-color:transparent;box-shadow:0 0 0 1.5px #D62976 inset;}
 .cardname{font-size:19px;font-weight:600;letter-spacing:-.02em;line-height:1.22;}
 .cardfoot{margin-top:auto;}
-.bignum{font-family:'IBM Plex Mono',monospace;font-size:23px;font-weight:500;
+.bignum{font-family:var(--sans);font-size:23px;font-weight:500;
   letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1;}
 .bignum span{color:var(--muted);font-size:15px;}
-.cardmeta{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);
+.cardmeta{font-family:var(--sans);font-size:11px;color:var(--muted);
   margin-top:5px;letter-spacing:.03em;}
 .track{height:3px;border-radius:99px;background:#EFEFEF;margin-top:12px;overflow:hidden;}
 .fill{height:100%;border-radius:99px;background:var(--grad);transition:width .3s;}
 
+.pickhead{font-size:28px;font-weight:800;letter-spacing:-.03em;margin:2px 0 20px;}
+.wgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.wcard{position:relative;display:flex;flex-direction:column;justify-content:space-between;
+  min-height:162px;border-radius:18px;padding:15px 16px 16px;cursor:pointer;border:0;
+  text-align:left;font:inherit;overflow:hidden;transition:transform .18s,box-shadow .18s;}
+.wcard:hover{transform:translateY(-2px);box-shadow:0 14px 30px -16px rgba(0,0,0,.45);}
+.wcard:focus-visible{outline:2px solid var(--ink);outline-offset:2px;}
+.wtop{display:flex;align-items:center;justify-content:space-between;margin-bottom:auto;}
+.wbrand{font-size:12px;font-weight:800;letter-spacing:.01em;}
+.wchip{width:27px;height:20px;border-radius:5px;flex:none;margin-left:auto;
+  background:linear-gradient(135deg,#F1D586,#C6A24A);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);}
+.wchip::after{content:"";position:absolute;}
+.wname{font-size:17px;font-weight:700;letter-spacing:-.02em;line-height:1.18;}
+.wamt{font-size:12.5px;margin-top:5px;font-variant-numeric:tabular-nums;opacity:.78;}
+.wamt b{font-weight:800;opacity:1;}
+@media (max-width:360px){.wname{font-size:15.5px;}}
+
 .back{background:none;border:0;padding:0;font:inherit;font-size:13px;color:var(--muted);
   cursor:pointer;margin-bottom:18px;font-weight:500;}
 .back:hover{color:var(--ink);}
-.weeklab{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--muted);font-weight:500;margin:26px 0 10px;}
+.weeklab{font-family:var(--sans);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);font-weight:600;margin:26px 0 12px;}
 .weeklab.first{margin-top:0;}
+
+.daylist{display:flex;flex-direction:column;margin-bottom:6px;
+  border:1px solid var(--line);border-radius:18px;background:var(--card);overflow:hidden;}
+.day{border-top:1px solid var(--line);}
+.day:first-child{border-top:0;}
+.dayhdr{display:flex;align-items:center;gap:13px;width:100%;background:none;border:0;
+  padding:16px 16px;font:inherit;color:inherit;cursor:pointer;text-align:left;
+  transition:background .15s;}
+.dayhdr:hover{background:#FAFAFA;}
+.dayhdr:focus-visible{outline:2px solid var(--ink);outline-offset:-2px;}
+.day.open .dayhdr{padding-bottom:8px;}
+.dbox{width:26px;height:26px;border-radius:8px;border:2px solid var(--line);flex:none;
+  display:flex;align-items:center;justify-content:center;color:transparent;font-size:14px;
+  transition:background .15s,border-color .15s;}
+.day.complete .dbox{background:var(--grad);border-color:transparent;color:#fff;}
+.dname{font-size:25px;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;line-height:1;}
+.day.complete .dname{color:#D62976;}
+.dcount{margin-left:auto;font-size:14px;font-weight:700;letter-spacing:-.02em;flex:none;
+  font-variant-numeric:tabular-nums;}
+.dcount span{color:var(--muted);font-weight:500;}
+.daybody{padding:0 16px 10px 55px;}
+.dtplrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:2px 0 6px;}
+.dtpllab{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;}
+.task{display:flex;align-items:flex-start;gap:13px;padding:14px 0;border-top:1px solid #EFEFEF;}
+.tbox{width:23px;height:23px;border-radius:7px;border:2px solid #D2D2D2;flex:none;background:#fff;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;color:transparent;font-size:13px;
+  padding:0;margin-top:1px;transition:background .15s,border-color .15s;}
+.tbox.on{background:var(--grad);border-color:transparent;color:#fff;}
+.topen{display:block;flex:1;min-width:0;text-decoration:none;color:inherit;cursor:pointer;}
+.ttext{font-size:15.5px;font-weight:600;letter-spacing:-.01em;word-break:break-all;line-height:1.3;}
+.task.done .ttext{text-decoration:line-through;color:var(--muted);}
+.tsub{font-size:12px;color:var(--muted);margin-top:2px;}
+.tflag{font-size:11.5px;color:#C77700;margin-top:3px;font-weight:500;}
+.rsel{font:inherit;font-size:11.5px;font-weight:600;border-radius:99px;border:1px solid var(--line);
+  background:#fff;color:var(--muted);padding:6px 9px;cursor:pointer;flex:none;margin-top:1px;}
+@media (max-width:360px){.dname{font-size:22px;}.daybody{padding-left:44px;}}
 
 .meter{display:flex;gap:3px;margin:14px 0 22px;}
 .seg{flex:1;height:6px;border-radius:99px;background:#EFEFEF;}
@@ -82,16 +133,16 @@ h1{font-size:33px;font-weight:700;letter-spacing:-.03em;line-height:1.08;margin:
   margin-bottom:8px;overflow:hidden;transition:opacity .2s;}
 .edge{width:4px;flex:none;}
 .body{flex:1;min-width:0;padding:13px 13px 11px;}
-.handle{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:14.5px;
+.handle{font-family:var(--sans);font-weight:500;font-size:14.5px;
   letter-spacing:-.01em;word-break:break-all;line-height:1.35;}
 .dname{font-size:12.5px;color:var(--muted);margin-top:3px;}
 .flag{font-size:11.5px;color:#C77700;margin-top:4px;font-weight:500;}
 .acts{display:flex;align-items:center;gap:7px;margin-top:11px;flex-wrap:wrap;}
 .sel{font:inherit;font-size:12px;font-weight:500;border-radius:8px;border:1px solid var(--line);
   background:#fff;color:var(--muted);padding:8px;cursor:pointer;max-width:118px;}
-.check{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:#fff;
-  cursor:pointer;color:#C7C7C7;font-size:14px;flex:none;display:flex;align-items:center;
-  justify-content:center;padding:0;margin-left:auto;}
+.check{width:34px;height:34px;border-radius:99px;border:2px solid var(--line);background:#fff;
+  cursor:pointer;color:transparent;font-size:15px;flex:none;display:flex;align-items:center;
+  justify-content:center;padding:0;margin-left:auto;transition:background .15s,border-color .15s;}
 .check.on{background:var(--grad);border-color:transparent;color:#fff;}
 .item.done{opacity:.55;}
 .item.done .handle{text-decoration:line-through;}
@@ -99,20 +150,20 @@ h1{font-size:33px;font-weight:700;letter-spacing:-.03em;line-height:1.08;margin:
 .tallygrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
 .stat{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:18px 16px;
   min-height:118px;display:flex;flex-direction:column;justify-content:space-between;}
-.statnum{font-family:'IBM Plex Mono',monospace;font-size:34px;font-weight:500;
+.statnum{font-family:var(--sans);font-size:34px;font-weight:500;
   letter-spacing:-.045em;line-height:1;font-variant-numeric:tabular-nums;}
 .statlab{font-size:13px;font-weight:600;margin-top:auto;}
-.statsub{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:4px;}
+.statsub{font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:4px;}
 table{width:100%;border-collapse:collapse;font-size:13px;}
-th{text-align:right;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;
+th{text-align:right;font-family:var(--sans);font-size:10.5px;letter-spacing:.1em;
   text-transform:uppercase;color:var(--muted);font-weight:500;padding:0 0 8px;
   border-bottom:1px solid var(--line);}
 th:first-child{text-align:left;}
 td{padding:10px 0;border-bottom:1px solid var(--line);text-align:right;
-  font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;}
-td:first-child{text-align:left;font-family:'IBM Plex Sans',sans-serif;font-weight:500;}
+  font-family:var(--sans);font-variant-numeric:tabular-nums;}
+td:first-child{text-align:left;font-family:var(--sans);font-weight:600;}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
-.chip{font-family:'IBM Plex Mono',monospace;font-size:11.5px;border:1px solid var(--line);
+.chip{font-family:var(--sans);font-size:11.5px;border:1px solid var(--line);
   background:var(--card);border-radius:7px;padding:5px 8px;color:var(--ink);text-decoration:none;}
 .chip:hover{border-color:#B9B9B9;}
 .empty{font-size:13px;color:var(--muted);margin:0;}
@@ -150,10 +201,23 @@ const RESP = {
   none:{label:"No reply",color:"#8E8E8E",bg:"#F1F1F1"}
 };
 const RESP_ORDER = ["yes","no","none"];
+const CARDCOLORS = [
+  {bg:"#1E1E20", ink:"#FFFFFF"}, {bg:"#EBE4D5", ink:"#2A2620"},
+  {bg:"#CFE8D2", ink:"#1E3A2A"}, {bg:"#F6D7E4", ink:"#47283A"},
+  {bg:"#D3CCF6", ink:"#2C2860"}, {bg:"#F7C89A", ink:"#5A3416"},
+  {bg:"#C0E3EE", ink:"#123E4C"}, {bg:"#2A2540", ink:"#ECEAFF"},
+  {bg:"#F4D775", ink:"#4A3A00"}, {bg:"#DCEBB2", ink:"#35410E"},
+  {bg:"#F3B7B0", ink:"#532420"}, {bg:"#C6B8E8", ink:"#2E2350"}
+];
+const WEEKDAY = {Mon:"Monday",Tue:"Tuesday",Wed:"Wednesday",Thu:"Thursday",Fri:"Friday",Sat:"Saturday",Sun:"Sunday"};
+function dayParts(label){
+  const p = String(label).trim().split(/\s+/);
+  return {wd:(WEEKDAY[p[0]] || p[0] || "").toUpperCase(), date:p.slice(1).join(" ")};
+}
 const PLACEHOLDER = "Loading the team template\u2026";
 const FALLBACK_TPL = "hey! we're Ready @ 20 \ud83d\udc4b an on-campus community\n\nWe're doing an event called Coffee & Christ Thursday August 27 \u2014 free coffee + donuts, and a room full of people also figuring out their first semester.\n\n\ud83d\udccd SEC 102 (Science & Engineering Classroom Building)\n\ud83d\udcc5 Thursday, Aug 27\n\ud83d\udd57 8:00\n\nCome by yourself or bring your whole floor, either works. Follow @firstlovehouston so you don't miss what's next \ud83e\udd0d";
 
-let leader = null, day = null, view = "pick";
+let leader = null, day = null, view = "pick", openDay = null;
 let status = {}, tpl = FALLBACK_TPL, conn = "sync";
 let since = "1970-01-01T00:00:00Z";
 
@@ -262,27 +326,80 @@ function cardHTML(name, done, total, act){
     '</div></button>';
 }
 
-function viewPick(){
-  return '<div class="top"><span class="eyebrow">Fall 2026 \u00b7 UH + TSU class of 2030</span>' + liveHTML() + '</div>' +
-    '<h1><span class="grad">DM runs</span></h1>' +
-    '<p class="sub">1,617 incoming freshmen, split across the team over two weeks. Tap your name \u2014 this phone will remember you.</p>' +
-    '<div class="grid">' +
-      DATA.leaders.map((l,i) => cardHTML(l.name, leaderDone(i), l.total, 'data-leader="' + i + '"')).join("") +
+function walletCard(name, done, total, i, act){
+  const cc = CARDCOLORS[i % CARDCOLORS.length];
+  const complete = total && done === total;
+  return '<button class="wcard" style="background:' + cc.bg + ';color:' + cc.ink + '" ' + act + '>' +
+    '<div class="wtop"><span class="wchip"></span></div>' +
+    '<div>' +
+      '<div class="wname">' + esc(name) + '</div>' +
+      '<div class="wamt"><b>' + done + '</b>/' + total + ' sent' + (complete ? " \u2713" : "") + '</div>' +
     '</div>' +
-    '<button class="btn big" data-view="tally">See team responses \u2192</button>' +
-    '<p class="note">Everything saves to a shared database within a few seconds, so the whole team sees the same numbers.</p>';
+  '</button>';
+}
+
+function viewPick(){
+  return '<div class="pickhead">DM runs</div>' +
+    '<div class="wgrid">' +
+      DATA.leaders.map((l,i) => walletCard(l.name, leaderDone(i), l.total, i, 'data-leader="' + i + '"')).join("") +
+    '</div>' +
+    '<button class="btn ghost big" data-view="tally">See team responses \u2192</button>';
+}
+
+function taskRow(item){
+  const c = CAMPUS[item.c] || CAMPUS.UH;
+  const isS = sent(item.h), r = respOf(item.h);
+  const selStyle = r ? 'style="color:' + RESP[r].color + ';background:' + RESP[r].bg +
+    ';border-color:' + RESP[r].color + '55"' : "";
+  return '<div class="task' + (isS ? " done" : "") + '">' +
+    '<button class="tbox' + (isS ? " on" : "") + '" data-check="' + esc(item.h) +
+      '" aria-pressed="' + isS + '" aria-label="Mark sent">\u2713</button>' +
+    '<a class="topen" href="https://ig.me/m/' + encodeURIComponent(item.h) +
+      '" target="_blank" rel="noreferrer" data-open="' + esc(item.h) +
+      '" title="Copy message + open DM">' +
+      '<div class="ttext">@' + esc(item.h) + '</div>' +
+      '<div class="tsub">' + c.label + (item.n ? " \u00b7 " + esc(item.n) : "") + '</div>' +
+      (item.v ? '<div class="tflag">Handle was cut off \u2014 check it first</div>' : "") +
+    '</a>' +
+    '<select class="rsel" data-resp="' + esc(item.h) + '" ' + selStyle + '>' +
+      '<option value="">Reply\u2026</option>' +
+      RESP_ORDER.map(k => '<option value="' + k + '"' + (r === k ? " selected" : "") +
+        '>' + RESP[k].label + '</option>').join("") +
+    '</select>' +
+  '</div>';
+}
+
+function dayBlock(di){
+  const L = DATA.leaders[leader];
+  const list = L.days[di], total = list.length, done = dayDone(leader, di);
+  const complete = total && done === total;
+  const dp = dayParts(DATA.days[di]);
+  const open = di === openDay;
+  let h = '<div class="day' + (complete ? " complete" : "") + (open ? " open" : "") + '">' +
+    '<button class="dayhdr" data-toggle="' + di + '" aria-expanded="' + open + '">' +
+      '<span class="dbox">\u2713</span>' +
+      '<span class="dname">' + esc(dp.wd) + '</span>' +
+      '<span class="dcount">' + done + '<span>/' + total + '</span></span>' +
+    '</button>';
+  if(open){
+    h += '<div class="daybody">' +
+      '<div class="dtplrow"><span class="dtpllab">' + esc(dp.date) + ' \u00b7 team message</span>' +
+        '<button class="btn ghost" data-copytpl="1">Copy message</button></div>' +
+      list.map(taskRow).join("") +
+    '</div>';
+  }
+  return h + '</div>';
 }
 
 function viewDays(){
   const L = DATA.leaders[leader];
-  const week = off => '<div class="grid">' + DATA.days.slice(off, off+5).map((label,k) => {
-      const di = off + k;
-      return cardHTML(label, dayDone(leader,di), L.days[di].length, 'data-day="' + di + '"');
-    }).join("") + '</div>';
+  if(openDay === null) openDay = -1;
+  const week = off => '<div class="daylist">' +
+    [0,1,2,3,4].map(k => dayBlock(off + k)).join("") + '</div>';
   return '<button class="back" data-back="pick">\u2190 Not ' + esc(L.name) + '?</button>' +
     '<div class="top"><span class="eyebrow">' + L.total + ' handles \u00b7 10 days</span>' + liveHTML() + '</div>' +
     '<h1>' + esc(L.name) + '</h1>' +
-    '<p class="sub">Around 13 a day. Spread them over a couple of hours rather than sending in one burst.</p>' +
+    '<p class="sub">Around 13 a day. Tap a day to open its list, then check each one off as you send.</p>' +
     '<div class="weeklab first">Week of Aug 3</div>' + week(0) +
     '<div class="weeklab">Week of Aug 10</div>' + week(5) +
     '<button class="btn ghost big" data-view="tally">See team responses \u2192</button>';
@@ -395,15 +512,19 @@ function render(){
 
 /* ---------------- events ---------------- */
 document.addEventListener("click", e => {
-  const t = e.target.closest("[data-leader],[data-day],[data-view],[data-back],[data-copy],[data-open],[data-check],[data-copytpl]");
+  const t = e.target.closest("[data-leader],[data-toggle],[data-view],[data-back],[data-copy],[data-open],[data-check],[data-copytpl]");
   if(!t) return;
 
   if(t.dataset.leader !== undefined){
-    leader = Number(t.dataset.leader); day = null; view = "days";
+    leader = Number(t.dataset.leader); day = null; view = "days"; openDay = null;
     try{ localStorage.setItem("dm:me", t.dataset.leader); }catch(err){}
     return render();
   }
-  if(t.dataset.day !== undefined){ day = Number(t.dataset.day); view = "list"; return render(); }
+  if(t.dataset.toggle !== undefined){
+    const di = Number(t.dataset.toggle);
+    openDay = (openDay === di ? -1 : di);
+    return render();
+  }
   if(t.dataset.view === "tally"){ view = "tally"; return render(); }
   if(t.dataset.back){
     if(t.dataset.back === "pick"){
